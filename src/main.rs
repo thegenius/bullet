@@ -43,7 +43,7 @@ fn gen_get_config_val_fn(config_database: Box<ConfigDatabase>, val_type: &str) -
 
 fn main() {
     let matches = App::new("bullet")
-        .version("1.0")
+        .version("0.1")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(Arg::with_name("config")
