@@ -1,0 +1,8 @@
+/target
+**/*.rs.bk
+.idea
+/configs
+/out
+/templates
+/templates/*
+bullet.iml

@@ -1,0 +1,15 @@
+[package]
+name = "bullet"
+version = "0.1.0"
+authors = ["wang wei <wei.wang@bitmart.com>"]
+edition = "2018"
+
+[dependencies]
+serde = "1.0"
+serde_derive = "1.0"
+serde_yaml = "0.8"
+clap = "2.32.0"
+tera = "0.11"
+walkdir = "2"
+lazy_static = "1.2.0"
+config = "0.9"
