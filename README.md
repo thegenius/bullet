@@ -10,3 +10,6 @@ so to save your life time.
 
 # usage
 bullet.exe --config=\<config_dir\> --template=\<template_dir\> --out=\<out_dir\>
+
+# download
+![windows-64](https://github.com/thegenius/bullet/blob/master/release/bullet_win_0.1.exe)
