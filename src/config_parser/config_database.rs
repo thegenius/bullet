@@ -8,7 +8,7 @@ use std::collections::hash_map::HashMap;
 
 #[derive(Debug)]
 pub struct ConfigDatabase {
-    config: config::Config
+    pub config: config::Config
 }
 
 impl ConfigDatabase {
@@ -48,10 +48,11 @@ pub fn build_config_database(config_dir: &str) -> Box<ConfigDatabase> {
     let mut database = Box::new(ConfigDatabase {
         config: config::Config::default()
     });
-
+    dbg!(&config_dir);
     let md = metadata(config_dir).unwrap();
     if md.is_file() {
         database.config.merge(config::File::with_name(config_dir));
+        dbg!(&database);
         return database;
     }
 
@@ -61,5 +62,6 @@ pub fn build_config_database(config_dir: &str) -> Box<ConfigDatabase> {
             database.config.merge(config::File::with_name(entry.path().to_str().unwrap()));
         }
     }
+    dbg!(&database);
     return database;
 }
