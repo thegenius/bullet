@@ -11,9 +11,15 @@ so to save your life time.
 # usage
 bullet.exe --config=\<config_dir\> --template=\<template_dir\> --out=\<out_dir\>
 
+# build install
+1. rust
+2. cargo
+3. cargo build --release
+4. ./target/release/bullet.exe --version
+
 # supported templates
 ## java spring
 ./release/bullet_win_0.1.exe -c release/build_example.toml -t release/templates/spring_java -o output
 
-# download
-![windows-64](https://github.com/thegenius/bullet/blob/master/release/bullet_win_0.1.exe)
+# pre-build download
+![windows-64](https://github.com/thegenius/bullet/blob/master/release/bullet_win64_0.1.exe)
