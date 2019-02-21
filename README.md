@@ -11,5 +11,9 @@ so to save your life time.
 # usage
 bullet.exe --config=\<config_dir\> --template=\<template_dir\> --out=\<out_dir\>
 
+# supported templates
+## java spring
+./release/bullet_win_0.1.exe -c release/build_example.toml -t release/templates/spring_java -o output
+
 # download
 ![windows-64](https://github.com/thegenius/bullet/blob/master/release/bullet_win_0.1.exe)
