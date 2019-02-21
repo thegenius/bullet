@@ -1,0 +1,12 @@
+package {{context.group}}.{{context.project}}.core.impl;
+
+import {{context.group}}.{{context.project}}.core.AddService;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AddServiceImpl implements AddService {
+    @Override
+    public Integer add(Integer a, Integer b) {
+        return a + b;
+    }
+}

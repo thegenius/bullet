@@ -1,0 +1,118 @@
+plugins {
+    id 'org.flywaydb.flyway' version '5.2.1'
+}
+apply from: "${rootDir}/gradle/dal.gradle"
+archivesBaseName = 'database'
+
+flyway {
+    url = "${db.url}"
+    println("flyway database url: ${db.url}")
+    user = "${db.username}"
+    password = "${db.password}"
+}
+
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}")
+
+    if ("MySQL".equalsIgnoreCase("${db.type}")) {
+        println("choose database: MySQL")
+        runtime("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+    }
+    if ("H2".equalsIgnoreCase("${db.type}")) {
+        println("choose database: H2")
+        runtime("com.h2database:h2:${h2Version}")
+    }
+
+}
+
+task generateDatabaseYaml {
+    doLast {
+        File sqlDir = file('src/main/resources/db/migration')
+        def collection = files { sqlDir.listFiles() }
+        def schemaList = []
+        def dataList = []
+        collection.collect { it.name }.sort().each {
+            def nameSplit = it.split("__")
+            if (nameSplit.length < 2) {
+                println("invalid sql file name: ${it}, please use __ to seperate version")
+            } else {
+                if (nameSplit[1].startsWith("create")) {
+                    schemaList.add("    - classpath:db/migration/${it}")
+                }
+                if (nameSplit[1].startsWith("insert")) {
+                    dataList.add("    - classpath:db/migration/${it}")
+                }
+            }
+        }
+        def schemaStr = schemaList.stream().reduce({origin, addon -> origin + "\n\r" + addon})
+        def dataStr = dataList.stream().reduce({origin, addon -> origin + "\n\r" + addon})
+
+        File file = new File("${projectDir}/src/main/resources/application-h2-mem.yaml")
+        String h2Content = """spring:
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username:
+    password:
+    schema:
+${schemaStr.get()}
+
+    data:
+${dataStr.get()}
+"""
+        file.write(h2Content)
+
+
+        file = new File("${projectDir}/src/main/resources/application-h2-file.yaml")
+        h2Content = """spring:
+  datasource:
+    # do not add DATABASE_TO_UPPER=false;
+    # because you always define lower case table or column in mysql
+    # but h2 only store uppercase table or column, so you need DATABASE_TO_UPPER=true(default)
+    url: ${h2Database.url}
+    driver-class-name: org.h2.Driver
+    username: ${h2Database.username}
+    password: ${h2Database.password}
+    schema:
+${schemaStr.get()}
+
+    data:
+${dataStr.get()}
+"""
+        file.write(h2Content)
+
+
+        file = new File("${projectDir}/src/main/resources/application-mysql.yaml")
+        String mysqlContent = """spring:
+  datasource:
+    url: ${mysqlDatabase.url}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # do not specify type, which will result in a multi-datasource warning
+    # type: com.zaxxer.hikari.HikariDataSource
+    username: ${mysqlDatabase.username}
+    password: ${mysqlDatabase.password}
+"""
+        file.write(mysqlContent)
+
+        file = new File("${projectDir}/src/test/resources/application.yaml")
+        String activeStr = "active: mysql"
+        if ("H2".equalsIgnoreCase("${db.type}")) {
+            if ("mem".equalsIgnoreCase("${db.subtype}")) {
+                activeStr = "active: h2-mem"
+            } else {
+                activeStr = "active: h2-file"
+            }
+        }
+        String testYamlContent = """server:
+  port: 8080
+
+spring:
+  profiles:
+    ${activeStr}
+"""
+        file.write(testYamlContent)
+    }
+}
+
+compileJava.dependsOn(generateDatabaseYaml)

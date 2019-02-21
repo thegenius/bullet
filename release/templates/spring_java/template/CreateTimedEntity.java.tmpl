@@ -1,0 +1,19 @@
+package {{context.group}}.{{context.project}}.ext;
+
+public interface CreateTimedEntity {
+    Integer getCreateZone();
+    Long    getCreateTime();
+
+    void setCreateZone(Integer createZone);
+    void setCreateTime(Long createTime);
+
+    default CreateTimedEntity create() {
+        return create(DateTimeWithZone.now());
+    }
+
+    default CreateTimedEntity create(DateTimeWithZone time) {
+        this.setCreateTime(time.getDatetime());
+        this.setCreateZone(time.getZone());
+        return this;
+    }
+}

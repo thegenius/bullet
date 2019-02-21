@@ -1,0 +1,6 @@
+package {{context.group}}.{{context.project}}.core;
+import {{context.group}}.{{context.project}}.ext.MayFail;
+
+public interface BasicInfoService {
+    MayFail<String> fetchNameById(Long id);
+}

@@ -1,0 +1,60 @@
+package {{context.group}}.{{context.project}}.ext;
+
+import lombok.Data;
+import lombok.AllArgsConstructor;
+
+import java.util.Optional;
+import java.util.function.Function;
+
+@Data
+@AllArgsConstructor
+public class MayFail<T> {
+    Exception ex;
+    T result;
+
+    public static <T> MayFail<T> from(T result) {
+        return new MayFail<>(null, result);
+    }
+
+    public static <T> MayFail<T> from(Exception error) {
+        return new MayFail<>(error, null);
+    }
+
+    public interface MayFailProvider<R> {
+        R func() throws Exception;
+    }
+
+    public static <T> MayFail<T> from(MayFailProvider<T> mayFailProvider) {
+        try {
+            return MayFail.from(mayFailProvider.func());
+        } catch (Exception ex) {
+            return MayFail.from(ex);
+        }
+    }
+
+    public boolean isSuccess() {
+        return ex == null;
+    }
+
+    public T get() {
+        return result;
+    }
+
+    public T getOrDefault(T defaultResult) {
+        return ex == null ?  result : defaultResult;
+    }
+
+    public <R> MayFail<R> map(Function<T, R> mapFunc) {
+        if (ex == null) {
+            return MayFail.from(mapFunc.apply(result));
+        } else {
+            return MayFail.from(ex);
+        }
+    }
+
+    public <R> Optional<R> mapOption(Function<T, R> mapFunc) {
+        return Optional.ofNullable(mapFunc.apply(result));
+    }
+}
+
+

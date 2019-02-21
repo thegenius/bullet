@@ -1,0 +1,84 @@
+package {{context.group}}.{{context.project}}.dal.jooq;
+
+import {{context.group}}.{{context.project}}.dal.common.generated.Tables;
+import {{context.group}}.{{context.project}}.dal.common.generated.tables.daos.EntityBasicInfoDao;
+import {{context.group}}.{{context.project}}.dal.common.generated.tables.pojos.EntityBasicInfo;
+import {{context.group}}.{{context.project}}.dal.common.generated.tables.records.EntityBasicInfoRecord;
+import {{context.group}}.{{context.project}}.ext.MayFail;
+import org.jooq.DSLContext;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Profile;
+
+import {{context.group}}.{{context.project}}.dal.EntityBasicInfoRepository;
+
+
+@Slf4j
+@Component
+@Profile("jooq")
+@AllArgsConstructor
+public class EntityBasicInfoRepositoryJooqImpl implements EntityBasicInfoRepository {
+    private DSLContext context;
+    private EntityBasicInfoDao dao;
+
+    @Override
+    public MayFail<EntityBasicInfo> fetchById(Long id) {
+        try {
+            EntityBasicInfo basicInfo = dao.fetchOneById(id);
+            return MayFail.from(basicInfo);
+        } catch (Exception ex) {
+            return MayFail.from(ex);
+        }
+    }
+
+    @Override
+    public MayFail<Boolean> insert(EntityBasicInfo basicInfo) {
+        try {
+            dao.insert(basicInfo);
+            return MayFail.from(true);
+        } catch (Exception ex) {
+            return MayFail.from(ex);
+        }
+    }
+
+    @Override
+    public MayFail<Boolean> upsert(EntityBasicInfo basicInfo) {
+        try {
+            EntityBasicInfoRecord insertRecord = context.newRecord(Tables.ENTITY_BASIC_INFO, basicInfo);
+            EntityBasicInfoRecord updateRecord = context.newRecord(Tables.ENTITY_BASIC_INFO, basicInfo);
+            updateRecord.setId(null);
+            updateRecord.setCreateBy(null);
+            updateRecord.setCreateTime(null);
+            updateRecord.setCreateZone(null);
+            context.insertInto(Tables.ENTITY_BASIC_INFO)
+                    .set(insertRecord)
+                    .onDuplicateKeyUpdate()
+                    .set(updateRecord)
+                    .execute();
+            return MayFail.from(true);
+        } catch (Exception ex) {
+            return MayFail.from(ex);
+        }
+    }
+
+    @Override
+    public MayFail<Boolean> update(EntityBasicInfo basicInfo) {
+        try {
+            dao.update(basicInfo);
+            return MayFail.from(true);
+        } catch (Exception ex) {
+            return MayFail.from(ex);
+        }
+    }
+
+    @Override
+    public MayFail<Boolean> removeById(Long id) {
+        try {
+            dao.deleteById(id);
+            return MayFail.from(true);
+        } catch (Exception ex) {
+            return MayFail.from(ex);
+        }
+    }
+}

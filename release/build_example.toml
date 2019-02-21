@@ -1,0 +1,12 @@
+group = "example"
+project = "test"
+
+[resources.basic_info]
+name = "basic_info"
+sql_table_name = "basic_info"
+dal_class_name = "BasicInfo"
+fields = [
+    {name_info = {default_name = "id", camel_name="id"},  type_info= {java="Long"}},
+]
+
+

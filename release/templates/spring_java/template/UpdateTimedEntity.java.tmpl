@@ -1,0 +1,19 @@
+package {{context.group}}.{{context.project}}.ext;
+
+public interface UpdateTimedEntity {
+    Integer getUpdateZone();
+    Long    getUpdateTime();
+
+    void setUpdateZone(Integer updateZone);
+    void setUpdateTime(Long updateTime);
+
+    default UpdateTimedEntity update() {
+        return update(DateTimeWithZone.now());
+    }
+
+    default UpdateTimedEntity update(DateTimeWithZone time) {
+        this.setUpdateTime(time.getDatetime());
+        this.setUpdateZone(time.getZone());
+        return this;
+    }
+}

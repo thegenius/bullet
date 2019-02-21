@@ -1,0 +1,29 @@
+ext {
+    // mysql configuration for build
+    mysqlDatabase = [
+            type    : "MySQL",
+            host    : 'localhost',
+            port    : '3306',
+            database: "test",
+            username: 'test',
+            password: '123456',
+            driver  : "com.mysql.cj.jdbc.Driver",
+            url     : "jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC",
+    ]
+
+    // h2 configuration for build
+    h2Database = [
+            type    : 'h2',
+            subtype : 'mem',
+            host    : '',
+            port    : '',
+            database: 'PUBLIC',
+            username: 'root',
+            password: '123456',
+            driver  : "org.h2.Driver",
+            url     : "jdbc:h2:file:${rootDir}/.h2/test;"
+    ]
+
+    db = h2Database
+}
+

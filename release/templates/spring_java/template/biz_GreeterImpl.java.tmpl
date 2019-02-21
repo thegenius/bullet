@@ -1,0 +1,38 @@
+package {{context.group}}.{{context.project}}.api.grpc.impl;
+
+import {{context.group}}.{{context.project}}.grpc.GreeterGrpc;
+import {{context.group}}.{{context.project}}.grpc.HelloReply;
+import {{context.group}}.{{context.project}}.grpc.HelloRequest;
+import {{context.group}}.{{context.project}}.grpc.IntData;
+import lombok.extern.slf4j.Slf4j;
+import net.devh.springboot.autoconfigure.grpc.server.GrpcService;
+
+@Slf4j
+@GrpcService
+public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+    @Override
+    public void sayHello(HelloRequest request, io.grpc.stub.StreamObserver<HelloReply> responseObserver) {
+        String name = request.getName();
+        log.info("received name: {}", name);
+        HelloReply reply = HelloReply.newBuilder()
+                .setMessage("hello " + name + "!")
+                .build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void sayHelloAgain(HelloRequest request, io.grpc.stub.StreamObserver<HelloReply> responseObserver) {
+        super.sayHelloAgain(request, responseObserver);
+    }
+
+    @Override
+    public io.grpc.stub.StreamObserver<HelloRequest> countHello(io.grpc.stub.StreamObserver<IntData> responseObserver) {
+        return super.countHello(responseObserver);
+    }
+
+    @Override
+    public io.grpc.stub.StreamObserver<HelloRequest> helloChat(io.grpc.stub.StreamObserver<HelloReply> responseObserver) {
+        return super.helloChat(responseObserver);
+    }
+}

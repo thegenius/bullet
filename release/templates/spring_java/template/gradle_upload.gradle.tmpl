@@ -1,0 +1,21 @@
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: 'http://example/repository/maven-releases/') {
+                authentication(userName: "${mavenPushUsername}", password: "${mavenPushPassword}")
+            }
+            snapshotRepository(url: 'http://example/repository/maven-snapshots/') {
+                authentication(userName: "${mavenPushUsername}", password: "${mavenPushPassword}")
+            }
+            pom {
+                groupId = "${group}"
+                artifactId = "${rootProject.name}.${archivesBaseName}"
+                version = "${version}"
+            }
+        }
+    }
+}
+
+// default install to local maven repo
+// defaultTasks 'uploadArchives'
+//build.finalizedBy('uploadArchives')

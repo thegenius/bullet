@@ -1,0 +1,55 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: h2-mem, jooq, grpc-server
+
+
+  redis:
+   host: 127.0.0.1
+   port: 6379
+   passWord:
+   pool:
+     timeout: 10
+     max-total: 5000
+
+
+authentication:
+  token-header-name: token
+  token-ignore-paths: /xxx
+  token-access-paths: /token, /api/v3/user_login, /gt/app/register, /gt/register, /gt/app/validate
+
+id-generator:
+  data-center-id: 23
+  machine-id: 23
+
+url:
+  notification: http://notification-v2-dev.default.svc.cluster.local
+
+# tow level cache,
+# first level: local caffeine
+# second level: redis
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.alibaba
+  local:
+    default:
+      type: caffeine
+      limit: 100
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      uri: redis://${spring.redis.host}:${spring.redis.port}/
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: ${spring.redis.host}
+#      port: ${spring.redis.port}

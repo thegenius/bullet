@@ -1,0 +1,8 @@
+archivesBaseName = 'rest'
+apply from: "${rootDir}/gradle/api.gradle"
+apply from: "${rootDir}/gradle/upload.gradle"
+
+dependencies {
+    compile project(":dal:common")
+    compileOnly("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+}

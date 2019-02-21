@@ -1,0 +1,88 @@
+project_structure = [
+    # api.grpc
+    ["{{ get_str(key="project") }}.api.grpc.src.main.proto",        "hello.proto",                                              "api_hello.proto.tmpl"],
+    ["{{ get_str(key="project") }}.api.grpc.src.main.resources",    "application-grpc-server.yaml",                             "api_application-grpc-server.yaml.tmpl"],
+    ["{{ get_str(key="project") }}.api.grpc.src.main.resources",    "application-{{get_str(key="project")}}-grpc-client.yaml",  "api_application-grpc-client.yaml.tmpl"],
+    ["{{ get_str(key="project") }}.api.grpc",                       "build.gradle",                                             "api_grpc_build.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.api.grpc",                       "grpc.gradle",                                              "api_grpc_grpc.gradle.tmpl"],
+
+    # api.rest
+    ["{{ get_str(key="project") }}.api.rest.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.api.rest",    "HelloController.java",    "api_HelloController.java.tmpl"],
+    ["{{ get_str(key="project") }}.api.rest",    "build.gradle",    "api_rest_build.gradle.tmpl"],
+
+    # api
+    ["{{ get_str(key="project") }}.api",    "build.gradle",    "api_build.gradle.tmpl"],
+
+    # biz
+    ["{{ get_str(key="project") }}.biz.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.api.grpc.impl",    "GreeterImpl.java",         "biz_GreeterImpl.java.tmpl"],
+    ["{{ get_str(key="project") }}.biz.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.api.rest.impl",    "HelloControllerImpl.java", "biz_HelloControllerImpl.java.tmpl"],
+    ["{{ get_str(key="project") }}.biz.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}",    "Application.java",    "biz_Application.java.tmpl"],
+
+    ["{{ get_str(key="project") }}.biz.src.main.resources",    "application.yaml",     "biz_application.yaml.tmpl"],
+    ["{{ get_str(key="project") }}.biz.src.main.resources",    "logback.xml",     "biz_logback.xml.tmpl"],
+    ["{{ get_str(key="project") }}.biz",    "build.gradle",     "biz_build.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.biz",    "jacoco.gradle",    "biz_jacoco.gradle.tmpl"],
+#
+#    # core
+    ["{{ get_str(key="project") }}.core.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core.impl",    "AddServiceImpl.java",    "core_AddServiceImpl.java.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core.impl",    "BasicInfoServiceImpl.java",    "core_BasicInfoServiceImpl.java.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core.mock",    "MultiplyServiceMock.java",    "core_MultiplyServiceMock.java.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core",    "AddService.java",    "core_AddService.java.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core",    "BasicInfoService.java",    "core_BasicInfoService.java.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core",    "MultiplyService.java",    "core_MultiplyService.java.tmpl"],
+
+
+    ["{{ get_str(key="project") }}.core.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core",    "AddServiceSpec.groovy",        "core_AddServiceSpec.groovy.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core",    "BasicInfoServiceSpec.groovy",  "core_BasicInfoServiceSpec.groovy.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}.core",    "MultiplyServiceSpec.groovy",   "core_MultiplyServiceSpec.groovy.tmpl"],
+    ["{{ get_str(key="project") }}.core.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}",         "ApplicationTests.java",        "core_ApplicationTests.java.tmpl"],
+
+    ["{{ get_str(key="project") }}.core.src.test.resources",    "application.yaml",    "core_test_application.yaml.tmpl"],
+    ["{{ get_str(key="project") }}.core",    "build.gradle",    "core_build.gradle.tmpl"],
+
+    # dal
+    ["{{ get_str(key="project") }}.dal.common.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.dal",           "EntityBasicInfoRepository.java",           "dal_common_EntityBasicInfoRepository.java.tmpl"],
+    ["{{ get_str(key="project") }}.dal.common.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.dal.helper",    "EntityBasicInfoHelper.java",               "dal_common_EntityBasicInfoHelper.java.tmpl"],
+    ["{{ get_str(key="project") }}.dal.common.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.dal.jooq",      "EntityBasicInfoRepositoryJooqImpl.java",   "dal_common_EntityBasicInfoRepositoryJooqImpl.java.tmpl"],
+    ["{{ get_str(key="project") }}.dal.common.src.main.resources",      "application-jooq.yaml",   "dal_common_application-jooq.yaml.tmpl"],
+    ["{{ get_str(key="project") }}.dal.common.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}.dal",           "EntityBasicInfoRepositorySpec.groovy",       "dal_common_EntityBasicInfoRepositorySpec.groovy.tmpl"],
+    ["{{ get_str(key="project") }}.dal.common",    "build.gradle",  "dal_common_build.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.dal.common",    "jooq.gradle",   "dal_common_jooq.gradle.tmpl"],
+
+
+    ["{{ get_str(key="project") }}.dal.database.src.main.resources.db.migration",    "V1__create_entity_basic_info.sql",    "dal_database_V1__create_entity_basic_info.sql.tmpl"],
+    ["{{ get_str(key="project") }}.dal.database.src.main.resources.db.migration",    "V2__insert_entity_basic_info.sql",    "dal_database_V2__insert_entity_basic_info.sql.tmpl"],
+    ["{{ get_str(key="project") }}.dal.database.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}.dal.database.datasource", "DataSourceTest.java",      "dal_database_DataSourceTest.java.tmpl"],
+    ["{{ get_str(key="project") }}.dal.database.src.test.java.{{get_str(key="group")}}.{{get_str(key="project")}}.dal.database",            "ApplicationTests.java",    "dal_database_ApplicationTests.java.tmpl"],
+    ["{{ get_str(key="project") }}.dal.database.src.test.resources",    "application.yaml",    "dal_database_application.yaml.tmpl"],
+    ["{{ get_str(key="project") }}.dal.database",    "build.gradle",    "dal_database_build.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.dal",    "build.gradle",    "dal_build.gradle.tmpl"],
+
+    # ext
+    ["{{ get_str(key="project") }}.ext.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.ext",    "DateTimeWithZone.java",          "ext_DateTimeWithZone.java.tmpl"],
+    ["{{ get_str(key="project") }}.ext.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.ext",    "SnowFlake.java",                 "ext_SnowFlake.java.tmpl"],
+    ["{{ get_str(key="project") }}.ext.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.ext",    "MayFail.java",                   "ext_MayFail.java.tmpl"],
+#    ["{{ get_str(key="project") }}.ext.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.ext",    "CreateTimedEntity.java",         "CreateTimedEntity.java.tmpl"],
+#    ["{{ get_str(key="project") }}.ext.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.ext",    "UpdateTimedEntity.java",         "UpdateTimedEntity.java.tmpl"],
+#    ["{{ get_str(key="project") }}.ext.src.main.java.{{get_str(key="group")}}.{{get_str(key="project")}}.ext",    "CreateUpdateTimedEntity.java",   "CreateUpdateTimedEntity.java.tmpl"],
+    ["{{ get_str(key="project") }}.ext",    "build.gradle",    "ext_build.gradle.tmpl"],
+
+    # gradle
+    ["{{ get_str(key="project") }}.gradle",    "api.gradle",        "gradle_api.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.gradle",    "dal.gradle",        "gradle_dal.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.gradle",    "upload.gradle",     "gradle_upload.gradle.tmpl"],
+    ["{{ get_str(key="project") }}.gradle",    "version.gradle",    "gradle_version.gradle.tmpl"],
+
+    # root
+    ["{{ get_str(key="project") }}",    ".gitignore",           ".gitignore.tmpl"],
+    ["{{ get_str(key="project") }}",    "build.gradle",         "build.gradle.tmpl"],
+    ["{{ get_str(key="project") }}",    "gradle.properties",    "gradle.properties.tmpl"],
+    ["{{ get_str(key="project") }}",    "gradlew",              "gradlew.tmpl"],
+    ["{{ get_str(key="project") }}",    "gradlew.bat",          "gradlew.bat.tmpl"],
+    ["{{ get_str(key="project") }}",    "README.md",            "README.md.tmpl"],
+    ["{{ get_str(key="project") }}",    "settings.gradle",      "settings.gradle.tmpl"],
+#
+#    {% for key, value in context.resources %}
+#    ["{{ get_str(key="project") }}",    "{{key}}.file",      "resource_dal.java.tmpl", "{% raw %}{# {% endraw %} resource = {{key}} {% raw %} #}{% endraw %}"],
+#    {% endfor %}
+]

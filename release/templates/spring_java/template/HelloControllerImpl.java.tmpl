@@ -1,0 +1,18 @@
+package {{context.group}}.{{context.project}}.api.rest.impl;
+import {{context.group}}.{{context.project}}.api.rest.HelloController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
+@Component
+public class HelloControllerImpl implements HelloController {
+
+    @Override
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("hello world!");
+    }
+
+    @Override
+    public ResponseEntity<String> sayHi(String name) {
+        return ResponseEntity.ok("hello " + name +"!");
+    }
+}

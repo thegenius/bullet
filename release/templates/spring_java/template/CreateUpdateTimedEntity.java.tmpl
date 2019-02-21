@@ -1,0 +1,10 @@
+package {{context.group}}.{{context.project}}.ext;
+
+public interface CreateUpdateTimedEntity extends CreateTimedEntity, UpdateTimedEntity {
+    default CreateTimedEntity createUpdate() {
+        DateTimeWithZone time = DateTimeWithZone.now();
+        this.create(time);
+        this.update(time);
+        return this;
+    }
+}

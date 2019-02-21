@@ -1,0 +1,13 @@
+package {{context.group}}.{{context.project}}.dal.domain;
+
+{{ resource.dal_class_name }} implements Serializable, CreateUpdateTimedEntity {
+
+
+    private static final long serialVersionUID = -1528700219;
+
+    {% for field in resource.fields %}
+    private {{ field.type_info.java }} {{ field.name_info.camel_name }};
+    {% endfor %}
+
+    public {{ resource.dal_class_name }}() {}
+}

@@ -1,0 +1,42 @@
+package {{context.group}}.{{context.project}}.core
+
+
+import spock.lang.Issue
+import spock.lang.Specification
+import org.spockframework.spring.SpringSpy
+import org.springframework.boot.test.context.SpringBootTest
+import {{context.group}}.{{context.project}}.dal.EntityBasicInfoRepository
+import {{context.group}}.{{context.project}}.dal.common.generated.tables.pojos.EntityBasicInfo
+
+@SpringBootTest
+class BasicInfoServiceSpec extends Specification {
+    @SpringSpy
+    EntityBasicInfoRepository repository
+
+    @SpringSpy
+    BasicInfoService basicInfoService
+
+    @Issue("test basic info")
+    void test() {
+        given:
+        def record = new EntityBasicInfo()
+        record.setId(23L)
+        record.setEntityId(123L)
+        record.setFirstName("first name")
+        record.setMiddleName("middle name")
+        record.setLastName("last name")
+        record.setNickname("nick name")
+        record.setIdentityCardNo("123")
+        record.setIdentityCardNation("CN")
+        record.setIsDeleted(0.byteValue())
+        record.setIsTest(0.byteValue())
+        record.setVersion(0)
+        record.setCreateBy(0L)
+        record.setUpdateBy(0L)
+        repository.insert(record)
+
+        expect:
+        basicInfoService.fetchNameById(23L).get() == "nick name"
+
+    }
+}

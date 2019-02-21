@@ -1,0 +1,79 @@
+apply plugin: 'jacoco'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+archivesBaseName = "biz"
+apply from: 'jacoco.gradle'
+
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude module: 'slf4j-log4j12'
+}
+
+dependencies {
+    implementation project(":api")
+    implementation project(":core")
+    implementation project(":dal")
+
+    implementation('org.springframework.boot:spring-boot-starter-aop')
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-undertow")
+    implementation("cz.jirutka.rsql:rsql-parser:2.1.0")
+
+
+//    implementation('org.springframework.cloud:spring-cloud-starter-feign:1.4.6.RELEASE')
+
+    /** begin of cache */
+//    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+//    implementation('com.alicp.jetcache:jetcache-starter-redis-lettuce:2.5.9')
+//    implementation('com.github.ben-manes.caffeine:caffeine:2.6.2')
+    /** end of cache */
+
+
+    /** begin of validation */
+//    implementation('com.baidu.uncore:fluent-validator:1.0.9')
+//    implementation('com.baidu.uncore:fluent-validator-jsr303:1.0.9')
+    /** end of validation */
+
+//    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+//    compile("com.github.tennaito:rsql-jpa:2.0.2")
+//    compile("org.springframework.boot:spring-boot-starter-data-rest")
+
+    implementation('com.google.guava:guava:26.0-jre')
+    implementation('commons-io:commons-io:2.6')
+    implementation('org.apache.commons:commons-lang3:3.3.2')
+
+    /** begin of json web token dependencies */
+    implementation('io.jsonwebtoken:jjwt-api:0.10.5')
+    implementation('org.bouncycastle:bcprov-jdk15on:1.60')
+    implementation('com.auth0:java-jwt:3.4.0')
+    implementation('com.auth0:jwks-rsa:0.6.0')
+    implementation('joda-time:joda-time:2.9.9')
+//    implementation('com.baqend:bloom-filter:1.0.7')
+    runtime('io.jsonwebtoken:jjwt-impl:0.10.5')
+    runtime('io.jsonwebtoken:jjwt-jackson:0.10.5')
+    /** end of json web token dependencies */
+
+    /** begin of retrofit2 dependencies */
+    implementation('com.squareup.retrofit2:retrofit:2.5.0')
+    implementation('com.squareup.retrofit2:converter-jackson:2.5.0')
+    implementation('com.squareup.okhttp3:okhttp:3.12.0')
+    /** end of retrofit2 dependencies */
+
+//    implementation("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+    implementation("net.devh:grpc-server-spring-boot-starter:${grpcStarterVersion}")
+    testImplementation("net.devh:grpc-client-spring-boot-starter:${grpcStarterVersion}")
+    implementation("io.netty:netty-tcnative-boringssl-static:${grpcTcnativeVersion}")
+
+    compileOnly('org.projectlombok:lombok')
+    compile('org.springframework.boot:spring-boot-devtools')
+//    jooqRuntime("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+
+//    testCompileOnly('org.projectlombok:lombok')
+//    testImplementation("io.rest-assured:spring-mock-mvc:${assuredMockVersion}")
+//    testImplementation("org.springframework.boot:spring-boot-starter-test")
+//    testImplementation('org.spockframework:spock-core:1.2-groovy-2.4')
+//    testImplementation('org.spockframework:spock-spring:1.2-groovy-2.4')
+//    testImplementation('com.h2database:h2:1.4.197')
+}

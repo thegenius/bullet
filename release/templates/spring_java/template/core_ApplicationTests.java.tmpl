@@ -1,0 +1,17 @@
+package {{context.group}}.{{context.project}};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+/**
+ * the core module does not has a main application
+ * so if you want to run the spring test, you should
+ * set a main application in test folder
+ */
+@SpringBootApplication
+public class ApplicationTests {
+    public static void main(String[] args) {
+        SpringApplication.run(ApplicationTests.class, args);
+    }
+}

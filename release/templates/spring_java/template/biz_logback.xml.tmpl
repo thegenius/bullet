@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="GROUP_NAME" value="{{context.group}}"/>
+    <property name="PROJECT_NAME" value="{{context.project}}"/>
+    <property name="LOG_HOME" value="./.logs" />
+    <property name="LOG_FORMAT" value="%date{HH:mm:ss.SSS} | %-5level | %thread | %logger{36}%msg%n"/>
+
+    <!-- 主控台Log -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_FORMAT}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- API入口Log -->
+    <appender name="apiRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/api.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/api.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_FORMAT}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 业务逻辑Log -->
+    <appender name="bizRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/biz.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/biz.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_FORMAT}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 服务Log -->
+    <appender name="coreRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/core.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/core.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_FORMAT}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- JOOQ执行Log，用于查看执行的SQL -->
+    <appender name="jooqRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/jooq.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/jooq.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="INFO" />
+
+    <logger name="${GROUP_NAME}.${PROJECT_NAME}.api" level="INFO" additivity="true">
+        <appender-ref ref="apiRollingFile"/>
+    </logger>
+
+    <logger name="${GROUP_NAME}.${PROJECT_NAME}.biz" level="INFO" additivity="true">
+        <appender-ref ref="bizRollingFile"/>
+    </logger>
+
+    <logger name="${GROUP_NAME}.${PROJECT_NAME}.core" level="INFO" additivity="true">
+        <appender-ref ref="coreRollingFile"/>
+    </logger>
+
+    <logger name="org.jooq" level="DEBUG" additivity="true">
+        <appender-ref ref="jooqRollingFile"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="console" />
+    </root>
+
+</configuration>

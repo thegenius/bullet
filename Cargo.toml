@@ -1,7 +1,7 @@
 [package]
 name = "bullet"
 version = "0.1.0"
-authors = ["wang wei <wei.wang@bitmart.com>"]
+authors = ["wang wei <soulww@163.com>"]
 edition = "2018"
 
 [dependencies]

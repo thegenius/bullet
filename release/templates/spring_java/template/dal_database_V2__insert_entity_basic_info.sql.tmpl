@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `entity_basic_info` (
+  `id` BIGINT NOT NULL COMMENT '主键',
+  `entity_id` BIGINT NOT NULL COMMENT '用户ID',
+  `nickname` VARCHAR(128) NOT NULL COMMENT '用户昵称',
+  `identity_card_no` VARCHAR(128) NOT NULL COMMENT '身份证号码',
+  `identity_card_nation` VARCHAR(64) NOT NULL COMMENT '身份证地区',
+  `first_name`  VARCHAR(32) NOT NULL DEFAULT '' COMMENT '名字',
+  `middle_name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '中名',
+  `last_name`   VARCHAR(32) NOT NULL DEFAULT '' COMMENT '姓氏',
+  `is_test` TINYINT NOT NULL DEFAULT 0 COMMENT '是否是测试数据',
+  `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否已经删除',
+  `create_zone` INT NOT NULL COMMENT '创建时区',
+  `update_zone` INT NOT NULL COMMENT '更新时区',
+  `create_time` BIGINT NOT NULL COMMENT '创建时间',
+  `update_time` BIGINT NOT NULL COMMENT '更新时间',
+  `create_by` BIGINT NOT NULL DEFAULT 0 COMMENT '创建者',
+  `update_by` BIGINT NOT NULL DEFAULT 0 COMMENT '更新者',
+  `version` INT NOT NULL DEFAULT 0 COMMENT '乐观锁版本号',
+  PRIMARY KEY (`id`)
+);
+
+

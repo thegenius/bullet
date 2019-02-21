@@ -1,0 +1,17 @@
+package {{context.group}}.{{context.project}}.dal;
+
+import {{context.group}}.{{context.project}}.dal.common.generated.tables.pojos.EntityBasicInfo;
+import {{context.group}}.{{context.project}}.ext.MayFail;
+
+public interface EntityBasicInfoRepository {
+
+    MayFail<Boolean> insert(EntityBasicInfo basicInfo);
+
+    MayFail<Boolean> update(EntityBasicInfo basicInfo);
+
+    MayFail<Boolean> upsert(EntityBasicInfo basicInfo);
+
+    MayFail<EntityBasicInfo> fetchById(Long id);
+
+    MayFail<Boolean> removeById(Long id);
+}

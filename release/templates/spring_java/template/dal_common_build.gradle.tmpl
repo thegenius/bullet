@@ -1,0 +1,23 @@
+plugins {
+    id 'nu.studer.jooq' version '3.0.2'
+}
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply from: "${rootDir}/gradle/dal.gradle"
+apply from: 'jooq.gradle'
+
+archivesBaseName = 'common'
+
+dependencies {
+    compile project(":ext")
+    compile project(":dal:database")
+    compile("javax.persistence:javax.persistence-api:2.2")
+    compile('com.baidu.unbiz:fluent-validator:1.0.9')
+    compile('com.baidu.unbiz:fluent-validator-jsr303:1.0.9')
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    compile('javax.el:javax.el-api:3.0.0')
+    compile("org.springframework.boot:spring-boot-starter-jooq:${springBootVersion}")
+}
+
+

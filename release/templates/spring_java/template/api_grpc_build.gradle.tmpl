@@ -1,0 +1,51 @@
+plugins {
+    id "com.google.protobuf" version "0.8.5"
+}
+
+archivesBaseName = 'grpc'
+apply from: "grpc.gradle"
+apply from: "${rootDir}/gradle/api.gradle"
+apply from: "${rootDir}/gradle/upload.gradle"
+
+dependencies {
+    compileOnly("net.devh:grpc-server-spring-boot-starter:${grpcStarterVersion}")
+    compileOnly("io.netty:netty-tcnative-boringssl-static:${grpcTcnativeVersion}")
+}
+
+task generateGrpcYaml {
+
+    doLast {
+        def generateServerYaml = {
+            def serverYamlPath = "src/main/resources/application-grpc-server.yaml"
+            File grpcServerYaml = file(serverYamlPath)
+            println("generate ${serverYamlPath}")
+            def serverConfig = """grpc:
+  server:
+    address: ${grpc.host}
+    port: ${grpc.port}
+"""
+            grpcServerYaml.write(serverConfig)
+        }
+
+        def generateClientYaml = {
+            def clientYamlPath = "src/main/resources/application-${rootProject.name}-grpc-client.yaml"
+            File grpcClientYaml = file(clientYamlPath)
+            println("generate ${clientYamlPath}")
+            def clientConfig = """grpc:
+  client:
+    ${rootProject.name}:
+      host: ${grpc.host}
+      port: ${grpc.port}
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+"""
+            grpcClientYaml.write(clientConfig)
+        }
+
+        generateServerYaml()
+        generateClientYaml()
+    }
+}
+
+compileJava.dependsOn(generateGrpcYaml)

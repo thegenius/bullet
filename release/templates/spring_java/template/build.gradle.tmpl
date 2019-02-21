@@ -1,0 +1,65 @@
+subprojects {
+    buildscript {
+        ext {
+            h2Version = '1.4.197'
+            mysqlConnectorVersion = '8.0.11'
+            springBootVersion = '2.1.0.RELEASE'
+        }
+        repositories {
+            mavenLocal()
+            maven {
+                url "http://maven.aliyun.com/nexus/content/groups/public/"
+            }
+            jcenter()
+            mavenCentral()
+        }
+        dependencies {
+            classpath("com.h2database:h2:${h2Version}")
+            classpath("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        }
+    }
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+
+    group = "{{context.group}}"
+    version = '1.0'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+
+    
+    ext['jooq.version'] = '3.11.2'
+    apply from: "${rootDir}/gradle/version.gradle"
+
+    repositories {
+        mavenLocal()
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+        }
+        jcenter()
+        mavenCentral()
+    }
+
+    configurations {
+        compile.exclude module: 'spring-boot-starter-tomcat'
+        compile.exclude module: 'slf4j-log4j12'
+    }
+
+    dependencies {
+        compileOnly("org.projectlombok:lombok:${lombokVersion}")
+        testImplementation("junit:junit:${junitVersion}")
+        testImplementation("com.h2database:h2:${h2Version}")
+        testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+        testImplementation("org.spockframework:spock-core:${spockVersion}")
+        testImplementation("org.spockframework:spock-spring:${spockVersion}")
+        testImplementation("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+        testImplementation("io.rest-assured:spring-mock-mvc:${assuredMockVersion}")
+        testImplementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+        testImplementation("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}")
+        testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    }
+}

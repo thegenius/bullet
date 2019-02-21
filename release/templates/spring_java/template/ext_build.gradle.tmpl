@@ -1,0 +1,18 @@
+archivesBaseName = 'ext'
+
+dependencies {
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    compile("javax.servlet:javax.servlet-api:3.1.0")
+    compile('org.apache.commons:commons-lang3:3.3.2')
+    compile('commons-io:commons-io:2.6')
+    compileOnly('org.slf4j:slf4j-api:1.7.25')
+
+    compile("com.baidu.unbiz:fluent-validator:${fluentValidatorVersion}")
+    compile('cz.jirutka.rsql:rsql-parser:2.1.0')
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.7'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
+    
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
+}

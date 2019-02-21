@@ -1,0 +1,94 @@
+package {{context.group}}.{{context.project}}.ext;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.time.*;
+
+@Data
+@AllArgsConstructor
+public class DateTimeWithZone {
+    /** 时间的毫秒表示 */
+    private Long datetime;
+
+    /** 时区偏移的秒表示*/
+    private Integer zone;
+
+    /**
+     * 返回当前时间和时区
+     * @return DateTimeWithZone格式的当前时间和时区
+     */
+    public static DateTimeWithZone now() {
+        return new DateTimeWithZone();
+    }
+
+    /**
+     *
+     * @param datetime 时间的毫秒表示
+     * @param zone 时区偏移的毫秒表示
+     * @return DateTimeWithZone格式的当前时间和时区
+     */
+    public static DateTimeWithZone of(Long datetime, Integer zone) {
+        return new DateTimeWithZone(datetime, zone);
+    }
+
+    /**
+     * 转化为OffsetDateTime
+     * @param dateTimeWithZone
+     * @return OffsetDateTime格式的时间
+     */
+    public static OffsetDateTime toOffsetDateTime(DateTimeWithZone dateTimeWithZone) {
+        ZoneOffset zoneOffset = ZoneOffset.ofTotalSeconds(dateTimeWithZone.zone);
+        ZoneId zoneId = ZoneId.ofOffset("UTC", zoneOffset);
+        Instant instant = Instant.ofEpochMilli(dateTimeWithZone.datetime);
+        return OffsetDateTime.ofInstant(instant, zoneId);
+    }
+
+    /**
+     * @param dateTimeWithZone
+     * @return ZonedDateTime格式的时间
+     */
+    public static ZonedDateTime toZoneDateTime(DateTimeWithZone dateTimeWithZone) {
+        ZoneOffset zoneOffset = ZoneOffset.ofTotalSeconds(dateTimeWithZone.zone);
+        ZoneId zoneId = ZoneId.ofOffset("UTC", zoneOffset);
+        Instant instant = Instant.ofEpochMilli(dateTimeWithZone.datetime);
+        return ZonedDateTime.ofInstant(instant, zoneId);
+    }
+
+    /**
+     * 默认构造函数，返回当前时间和系统默认时区
+     */
+    public DateTimeWithZone() {
+        OffsetDateTime offsetDateTime = OffsetDateTime.now();
+        LocalDateTime localDateTime = offsetDateTime.toLocalDateTime();
+        ZoneOffset zoneOffset = offsetDateTime.getOffset();
+        this.datetime = localDateTime.toInstant(zoneOffset).toEpochMilli();
+        this.zone = zoneOffset.getTotalSeconds();
+    }
+
+    /**
+     * @return OffsetDateTime格式的时间
+     */
+    public OffsetDateTime toOffsetDateTime() {
+        return toOffsetDateTime(this);
+    }
+
+    /**
+     * @return ZonedDateTime格式的时间
+     */
+    public ZonedDateTime toZonedDateTime() {
+        return toZoneDateTime(this);
+    }
+
+    public long getTimeMillis() {
+        return this.datetime;
+    }
+
+    public int getTimeOffsetMillis() {
+        return this.zone * 1000;
+    }
+
+    public ZoneOffset getZoneOffset() {
+        return ZoneOffset.ofTotalSeconds(this.zone);
+    }
+}
