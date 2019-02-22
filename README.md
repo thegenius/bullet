@@ -33,7 +33,7 @@ my_content = "This is my content"
 ## project structure example: templates/structure/structure.toml
 ```text
 project_structure = [
-    ["{{ context.group }}.{{context.project }}", "hello.txt", "hello.txt.tmpl"]                                          
+    ["{{ context.group }}.{{context.project }}", "hello.txt", "hello.txt.tmpl"]
 ]
 ```
 
