@@ -61,11 +61,11 @@ pub fn render_templates(tera_instance: &Tera, context: &Context, build_context: 
             }
         } else {
             let resource_name: Option<String> = read_template_resource_name(entry.path());
-            dbg!(&resource_name);
+//            dbg!(&resource_name);
             let striped_path = entry.path().strip_prefix(template_path).unwrap();
             let template_name = striped_path.to_str().unwrap().replace("\\", "/");
-            dbg!(&entry);
-            dbg!(&template_name);
+//            dbg!(&entry);
+//            dbg!(&template_name);
             let mut render_context = context.clone();
             match resource_name {
                 Some(name) => {

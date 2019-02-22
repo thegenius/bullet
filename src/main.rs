@@ -101,7 +101,7 @@ fn render_project_structure(command_args: &CommandArgs, build_context: &BuildCon
 //    build_fn_map.insert("get_map", gen_get_config_map_val_fn(build_config2, "str"));
 
     let structure_template_dir = format!("{}/structure", command_args.template);
-    dbg!(&structure_template_dir);
+//    dbg!(&structure_template_dir);
     let tera_instance = build_tera(structure_template_dir.as_str(), build_fn_map);
     let mut context = Context::new();
     context.insert("context", &build_context);
@@ -169,7 +169,7 @@ fn render_project(command_args: &CommandArgs, build_context: &BuildConfig, proje
 
 fn main() {
     let matches = App::new("bullet")
-        .version("0.1.2")
+        .version("0.1.3")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(Arg::with_name("dummy")
@@ -222,11 +222,11 @@ fn main() {
         template: matches.value_of("template").unwrap(),
         output: matches.value_of("output").unwrap(),
     };
-    dbg!(&command_args);
+//    dbg!(&command_args);
 
     let build_config_str = fs::read_to_string(command_args.config).unwrap();
     let build_config: BuildConfig = toml::from_str(build_config_str.as_str()).unwrap();
-    dbg!(&build_config);
+//    dbg!(&build_config);
 
     fs::remove_dir_all(".bullet_work_dir");
     let structure_path = ".bullet_work_dir/structure";

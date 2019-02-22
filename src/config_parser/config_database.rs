@@ -48,11 +48,11 @@ pub fn build_config_database(config_dir: &str) -> Box<ConfigDatabase> {
     let mut database = Box::new(ConfigDatabase {
         config: config::Config::default()
     });
-    dbg!(&config_dir);
+//    dbg!(&config_dir);
     let md = metadata(config_dir).unwrap();
     if md.is_file() {
         database.config.merge(config::File::with_name(config_dir));
-        dbg!(&database);
+//        dbg!(&database);
         return database;
     }
 
@@ -62,6 +62,6 @@ pub fn build_config_database(config_dir: &str) -> Box<ConfigDatabase> {
             database.config.merge(config::File::with_name(entry.path().to_str().unwrap()));
         }
     }
-    dbg!(&database);
+//    dbg!(&database);
     return database;
 }
