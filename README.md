@@ -8,7 +8,7 @@ bullet is a project boilerplate generator
 3. check version: cargo bullet --version
 
 ## windows
-1. install rust: following ![rust-lang](https://www.rust-lang.org/tools/install)
+1. install rust: following [rust-lang](https://www.rust-lang.org/tools/install)
 2. install bullet: cargo install cargo-bullet
 3. check version: cargo bullet --version
 
