@@ -1,8 +1,16 @@
 [package]
-name = "bullet"
+name = "cargo-bullet"
 version = "0.1.0"
 authors = ["wang wei <soulww@163.com>"]
 edition = "2018"
+
+description = "This is a configurable project generator"
+homepage = "https://github.com/thegenius/bullet"
+keywords = ["generator"]
+categories = ["command-line-utilities"]
+license = "Apache-2.0/MIT"
+maintenance = { status = "actively-developed" }
+exclude = ["release/*.exe"]
 
 [dependencies]
 serde = "1.0"
