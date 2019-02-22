@@ -62,7 +62,8 @@ pub struct ResourceItem {
 pub struct BuildConfig {
     pub group: String,
     pub project: String,
-    pub resources: HashMap<String, ResourceItem>
+    pub resources: Option<HashMap<String, ResourceItem>>,
+    pub ext: Option<HashMap<String, String>>
 }
 
 fn gen_get_config_val_fn(config_database: Box<ConfigDatabase>, val_type: &str) -> GlobalFn {
@@ -168,7 +169,7 @@ fn render_project(command_args: &CommandArgs, build_context: &BuildConfig, proje
 
 fn main() {
     let matches = App::new("bullet")
-        .version("0.1")
+        .version("0.1.2")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(Arg::with_name("dummy")

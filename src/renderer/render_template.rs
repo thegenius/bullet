@@ -27,7 +27,7 @@ pub fn walk_templates(template_path: &str) {
     }
 }
 
-fn read_template_resource_name(file_path: &Path)->Option<String> {
+fn read_template_resource_name(file_path: &Path) -> Option<String> {
     if file_path.is_file() {
         let f = File::open(file_path).unwrap();
         let file = BufReader::new(&f);
@@ -56,7 +56,7 @@ pub fn render_templates(tera_instance: &Tera, context: &Context, build_context: 
             if !target_path.exists() {
                 match fs::create_dir_all(&target_path) {
                     Err(why) => panic!("{:?}", why),
-                    Ok(())=> println!("create dir {} success!", target_path.display())
+                    Ok(()) => println!("create dir {} success!", target_path.display())
                 }
             }
         } else {
@@ -68,14 +68,20 @@ pub fn render_templates(tera_instance: &Tera, context: &Context, build_context: 
             dbg!(&template_name);
             let mut render_context = context.clone();
             match resource_name {
-                Some(name)=>render_context.insert("resource", build_context.resources.get(name.as_str()).unwrap()),
-                None=>println!("no resource name found")
+                Some(name) => {
+                    match &build_context.resources {
+                        Some(map) => render_context.insert("resource", map.get(name.as_str()).unwrap()),
+                        None => println!("no resources properties")
+                    }
+//                        let resources_map = build_context.resources.unwrap();
+                }
+                None => println!("no resource name found")
             }
 
             let content = tera_instance.render(template_name.as_str(), &render_context).unwrap();
             match fs::write(&target_path, content) {
                 Err(why) => panic!("{:?}", why),
-                Ok(())=> println!("render {} success!", target_path.display())
+                Ok(()) => println!("render {} success!", target_path.display())
             }
         }
     }

@@ -26,18 +26,20 @@ cargo bullet --config=\<config_file\> --template=\<template_dir\> --out=\<out_di
 ```toml
 group = "example"
 project = "test"
+[ext]
+my_content = "This is my content"
 ```
 
 ## project structure example: templates/structure/structure.toml
 ```text
 project_structure = [
-    ["{{ context.group }}.{{context.project }}", "hello.txt", "hello.txt.tmpl"]                                            "api_hello.proto.tmpl"],
+    ["{{ context.group }}.{{context.project }}", "hello.txt", "hello.txt.tmpl"]                                          
 ]
 ```
 
 ## project template example: templates/template/hello.txt.tmpl
 ```text
-hello {{ context.project }}
+hello {{ context.project }} {{ context.ext.my_content }}
 ```
 
 ## generate the project
