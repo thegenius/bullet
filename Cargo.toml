@@ -1,6 +1,6 @@
 [package]
 name = "cargo-bullet"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["wang wei <soulww@163.com>"]
 edition = "2018"
 
@@ -10,6 +10,7 @@ keywords = ["generator"]
 categories = ["command-line-utilities"]
 license = "Apache-2.0/MIT"
 maintenance = { status = "actively-developed" }
+readme = "README.md"
 exclude = ["release/*.exe"]
 
 [dependencies]
