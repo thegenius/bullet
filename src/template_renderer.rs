@@ -256,7 +256,6 @@ fn render_static_structure(
     let mut context = Context::new();
     context.insert("context", &build_config);
     let item = structure_builder::parse_structure_item(static_item, &context);
-    dbg!(&item);
     render_structure_item(tera, &context, out, &item);
 }
 
@@ -276,7 +275,6 @@ fn render_dynamic_structure(
                 context.insert("context", &build_config);
                 context.insert("resource", &val);
                 let item = structure_builder::parse_structure_item(dynamic_item, &context);
-                dbg!(&item);
                 render_structure_item(tera, &context, out, &item);
             }
         }

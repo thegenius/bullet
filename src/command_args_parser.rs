@@ -62,7 +62,7 @@ fn parse_install_args(install_command: &Option<&ArgMatches>) -> Option<InstallAr
 
 pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>) {
     let comand_line_matches = App::new("bullet")
-        .version("0.1.3")
+        .version("0.2.0")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(
