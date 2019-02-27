@@ -1,7 +1,6 @@
 use tera::Context;
 use config::Value;
 use config::Source;
-use config::ConfigError;
 use walkdir::WalkDir;
 use std::fs::metadata;
 use std::collections::hash_map::HashMap;
@@ -24,22 +23,13 @@ impl ConfigDatabase {
     pub fn get_str(&self, key: &str) -> String {
         self.config.get_str(key).unwrap()
     }
-//    pub fn get(&self, key: &str) -> Result<T, ConfigError> {
-//        self.config.get(key)
-//    }
+
     pub fn convert_into_map(&self) -> HashMap<String, Value> {
        return self.config.collect().unwrap();
     }
+
     pub fn convert_into_tera_context(&self) -> Context {
         let context: Context = Context::new();
-//        let content_map = self.convert_into_map();
-//        dbg!(&content_map);
-//        for (key,val) in content_map {
-//            match val {
-//                <config::Value>::ValueKind::Nil => println!("Nil"),
-//                _ => println!("default")
-//            }
-//        }
         return context;
     }
 }
@@ -48,11 +38,10 @@ pub fn build_config_database(config_dir: &str) -> Box<ConfigDatabase> {
     let mut database = Box::new(ConfigDatabase {
         config: config::Config::default()
     });
-//    dbg!(&config_dir);
+
     let md = metadata(config_dir).unwrap();
     if md.is_file() {
         database.config.merge(config::File::with_name(config_dir));
-//        dbg!(&database);
         return database;
     }
 
@@ -62,6 +51,5 @@ pub fn build_config_database(config_dir: &str) -> Box<ConfigDatabase> {
             database.config.merge(config::File::with_name(entry.path().to_str().unwrap()));
         }
     }
-//    dbg!(&database);
     return database;
 }
