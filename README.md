@@ -1,5 +1,6 @@
 
 [![crates.io](https://img.shields.io/badge/crates.io-0.2.0-green.svg)](https://crates.io/crates/cargo-bullet)
+[![LICENSE](https://img.shields.io/badge/LICENSE-apache-green.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Build Status](https://www.travis-ci.org/thegenius/bullet.svg?branch=master)](https://www.travis-ci.org/thegenius/bullet)
 
 # bullet
