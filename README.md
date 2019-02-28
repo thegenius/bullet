@@ -83,8 +83,34 @@ you can use context as the reference to bullet.toml properties,
 and you can use resource as the reference to bullet.toml's resource item
 for example:
 ``` text
-item_path = "{{context.project}}.hello"
+item_path = "{{context.project}}.hello" item_file = "{{resource.name_info.default_name}}"
 ```
+
+## For All User
+### bullet.toml example
+```text
+group = "example"
+project = "test"
+
+[ext]
+content = "ext content"
+
+[resources.basic_info]
+name_info = {default_name = "hello"}
+type_info = {}
+ext = {}
+fields = [
+    {name_info = {default_name = "id", camel_name="id"},  type_info= {java="Long"}},
+]
+```
+### bullet.toml root element
+|property|must|type|
+|----|----|----|
+|group|yes|string|
+|project|yes|string|
+|ext|no|map<"string", "string">|
+|resources|no|resource item|
+
 
 # Supported Templates
 ## Java Spring
