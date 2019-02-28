@@ -74,7 +74,7 @@ pub fn write_installed_records(records: HashMap<String, InstalledRecord>) {
     let content = toml::to_string(&records).unwrap();
     match fs::write(record_path, content) {
         Err(why) => panic!("failed to save install record: {}", why),
-        Ok(_) => ()
+        Ok(_) => (),
     }
 }
 
@@ -116,7 +116,9 @@ fn generate_repository_url(name: &String, url: &String) -> String {
         }
     } else {
         if url.is_empty() {
-            panic!("please set the repository url that you want to install! consider use --url=<URL>");
+            panic!(
+                "please set the repository url that you want to install! consider use --url=<URL>"
+            );
         }
         return url.clone();
     }
@@ -132,8 +134,11 @@ pub fn install_template_from_git(name: String, url: String, force: bool) {
     if force {
         if template_path.exists() {
             match fs::remove_dir_all(&template_path) {
-                Err(why) => panic!("failed to clear repository : {}, consider remove it manually", why),
-                Ok(_) => ()
+                Err(why) => panic!(
+                    "failed to clear repository : {}, consider remove it manually",
+                    why
+                ),
+                Ok(_) => (),
             }
         }
     }
@@ -159,6 +164,6 @@ pub fn create_build_config_from_installed(name: String) {
     let example_file_path = format!("{}/bullet.toml", &template_path.as_str());
     match fs::copy(example_file_path, "bullet.toml") {
         Err(why) => panic!("failed to create bullet.toml from {}: {}", &name, why),
-        Ok(_) => println!("create {} bullet.toml success!", &name)
+        Ok(_) => println!("create {} bullet.toml success!", &name),
     }
 }

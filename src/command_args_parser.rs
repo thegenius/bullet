@@ -18,12 +18,12 @@ pub enum BuildArg {
 pub struct InstallArg {
     pub name: String,
     pub url: String,
-    pub force: bool
+    pub force: bool,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateArg {
-    pub name: String
+    pub name: String,
 }
 
 fn parse_build_args(build_args: &Option<&ArgMatches>) -> Option<BuildArg> {
@@ -62,7 +62,7 @@ fn parse_install_args(install_command: &Option<&ArgMatches>) -> Option<InstallAr
             return Some(InstallArg {
                 name: name_arg,
                 url: url_arg,
-                force: force_arg
+                force: force_arg,
             });
         }
     };
@@ -73,9 +73,7 @@ fn parse_create_args(create_command: &Option<&ArgMatches>) -> Option<CreateArg> 
         None => None,
         Some(create_command) => {
             let name_arg: String = create_command.value_of("name").unwrap().to_string();
-            return Some(CreateArg {
-                name: name_arg,
-            });
+            return Some(CreateArg { name: name_arg });
         }
     };
 }
@@ -169,7 +167,7 @@ pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>, Optio
                         .help("set the template name")
                         .required(true)
                         .takes_value(true),
-                )
+                ),
         )
         .get_matches();
 
