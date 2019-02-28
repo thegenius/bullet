@@ -108,7 +108,7 @@ fields = [
 |----|----|----|
 |group|yes|string|
 |project|yes|string|
-|ext|no|map<"string", "string">|
+|ext|no|map\<string, string\>|
 |resources|no|resource item|
 
 
