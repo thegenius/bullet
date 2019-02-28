@@ -115,21 +115,26 @@ fn generate_repository_url(name: &String, url: &String) -> String {
             panic!("sorry, you choose an official repository not supported for now!");
         }
     } else {
+        if url.is_empty() {
+            panic!("please set the repository url that you want to install! consider use --url=<URL>");
+        }
         return url.clone();
     }
 }
 
 pub fn install_template_from_git(name: String, url: String, force: bool) {
-    if name.is_empty() || url.is_empty() {
+    if name.is_empty() {
         panic!("install name is empty or url is empty!")
     }
     let template_path = gen_template_path(&name);
     let real_url = generate_repository_url(&name, &url);
     println!("template install path: {}", &template_path.display());
     if force {
-        match fs::remove_dir_all(&template_path) {
-            Err(why) => panic!("failed to clear repository: {}", why),
-            Ok(_) => ()
+        if template_path.exists() {
+            match fs::remove_dir_all(&template_path) {
+                Err(why) => panic!("failed to clear repository : {}, consider remove it manually", why),
+                Ok(_) => ()
+            }
         }
     }
     match Repository::clone(real_url.as_str(), &template_path) {
