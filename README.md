@@ -33,7 +33,7 @@ my_content = "This is my content"
 ## project structure example: templates/structure/structure.toml
 ```text
 project_structure = [
-    ["{{ context.group }}.{{context.project }}", "hello.txt", "hello.txt.tmpl"]
+    {item_path="{{ context.group }}.{{context.project }}",  item_file = "hello.txt", item_tmpl="hello.txt.tmpl", item_type="static"}
 ]
 ```
 
@@ -55,7 +55,7 @@ so to save your life time.
 3. generate the project
 
 # For Template Developer
-## template structure
+## Template Structure
 ```text
 root |-- structure/
      |-- |-- structure.toml 
@@ -65,8 +65,29 @@ root |-- structure/
      |-- bullet.toml
 ```
 
-# supported templates
-## java spring
+## Structrue File
+1. project_structure is the root element
+2. children element must have 4 fields: item_path, item_file, item_tmpl, item_type
+3. item_path is the file path that you want to generate
+4. item_file is the file name that you want to generate
+5. item_tmpl is the template file located in template dir
+6. item_type now support "static" and "dynamic"
+### Static Structure
+you can use context as the reference to bullet.toml properties  
+for example:
+``` text
+item_path = "{{context.project}}.hello"
+```
+### Dynamic Structure
+you can use context as the reference to bullet.toml properties,   
+and you can use resource as the reference to bullet.toml's resource item
+for example:
+``` text
+item_path = "{{context.project}}.hello"
+```
+
+# Supported Templates
+## Java Spring
 ```text
 cargo bullet install --name=bullet-spring-java
 cargo bullet create  --name=bullet-spring-java
