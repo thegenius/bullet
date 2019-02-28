@@ -18,15 +18,15 @@ mod template_installer;
 mod template_renderer;
 mod tera_builder;
 
-use command_args_parser::{BuildArg, InstallArg};
+use command_args_parser::{BuildArg, InstallArg, CreateArg};
 
 fn main() {
-    let command_args: (Option<InstallArg>, Option<BuildArg>) =
+    let command_args: (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>) =
         command_args_parser::parse_command_line_args();
     match command_args.0 {
         None => (),
         Some(install_arg) => {
-            template_installer::install_template_from_git(install_arg.name, install_arg.url);
+            template_installer::install_template_from_git(install_arg.name, install_arg.url, install_arg.force);
         }
     };
 
@@ -34,6 +34,13 @@ fn main() {
         None => (),
         Some(build_arg) => {
             template_renderer::render(build_arg);
+        }
+    }
+
+    match command_args.2 {
+        None => (),
+        Some(create_arg) => {
+            template_installer::create_build_config_from_installed(create_arg.name);
         }
     }
 }

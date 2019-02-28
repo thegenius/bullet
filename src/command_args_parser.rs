@@ -18,6 +18,12 @@ pub enum BuildArg {
 pub struct InstallArg {
     pub name: String,
     pub url: String,
+    pub force: bool
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct CreateArg {
+    pub name: String
 }
 
 fn parse_build_args(build_args: &Option<&ArgMatches>) -> Option<BuildArg> {
@@ -52,15 +58,29 @@ fn parse_install_args(install_command: &Option<&ArgMatches>) -> Option<InstallAr
         Some(install_command) => {
             let name_arg: String = install_command.value_of("name").unwrap().to_string();
             let url_arg: String = install_command.value_of("url").unwrap().to_string();
+            let force_arg: bool = install_command.is_present("force");
             return Some(InstallArg {
                 name: name_arg,
                 url: url_arg,
+                force: force_arg
             });
         }
     };
 }
 
-pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>) {
+fn parse_create_args(create_command: &Option<&ArgMatches>) -> Option<CreateArg> {
+    return match create_command {
+        None => None,
+        Some(create_command) => {
+            let name_arg: String = create_command.value_of("name").unwrap().to_string();
+            return Some(CreateArg {
+                name: name_arg,
+            });
+        }
+    };
+}
+
+pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>) {
     let comand_line_matches = App::new("bullet")
         .version("0.2.0")
         .author("Wang Wei. <soulww@163.com>")
@@ -129,9 +149,27 @@ pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>) {
                         .long("url")
                         .short("u")
                         .help("set the git url of the template")
+                        .default_value("")
+                        .takes_value(true),
+                )
+                .arg(
+                    Arg::with_name("force")
+                        .long("force")
+                        .short("f")
+                        .help("over write the existed repository"),
+                ),
+        )
+        .subcommand(
+            SubCommand::with_name("create")
+                .about("create project bullet.toml")
+                .arg(
+                    Arg::with_name("name")
+                        .long("name")
+                        .short("n")
+                        .help("set the template name")
                         .required(true)
                         .takes_value(true),
-                ),
+                )
         )
         .get_matches();
 
@@ -139,5 +177,7 @@ pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>) {
         parse_build_args(&comand_line_matches.subcommand_matches("build"));
     let install_arg: Option<InstallArg> =
         parse_install_args(&comand_line_matches.subcommand_matches("install"));
-    return (install_arg, build_arg);
+    let create_arg: Option<CreateArg> =
+        parse_create_args(&comand_line_matches.subcommand_matches("create"));
+    return (install_arg, build_arg, create_arg);
 }

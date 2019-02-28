@@ -104,13 +104,35 @@ pub fn fetch_template_path(name: &String) -> Option<String> {
     }
 }
 
-pub fn install_template_from_git(name: String, url: String) {
+fn generate_repository_url(name: &String, url: &String) -> String {
+    if name.starts_with("bullet-") {
+        if !url.is_empty() {
+            panic!("you can not set url for repository official, consider remove --url config");
+        }
+        if name.eq("bullet-spring-java") {
+            return String::from("https://github.com/thegenius/bullet-spring-java.git");
+        } else {
+            panic!("sorry, you choose an official repository not supported for now!");
+        }
+    } else {
+        return url.clone();
+    }
+}
+
+pub fn install_template_from_git(name: String, url: String, force: bool) {
     if name.is_empty() || url.is_empty() {
         panic!("install name is empty or url is empty!")
     }
     let template_path = gen_template_path(&name);
+    let real_url = generate_repository_url(&name, &url);
     println!("template install path: {}", &template_path.display());
-    match Repository::clone(url.as_str(), &template_path) {
+    if force {
+        match fs::remove_dir_all(&template_path) {
+            Err(why) => panic!("failed to clear repository: {}", why),
+            Ok(_) => ()
+        }
+    }
+    match Repository::clone(real_url.as_str(), &template_path) {
         Ok(_) => {
             println!(
                 "install template {} to {} success!",
@@ -121,5 +143,17 @@ pub fn install_template_from_git(name: String, url: String) {
             save_install_record(name, url, template_path_string);
         }
         Err(e) => panic!("failed to clone git repository: {}", e),
+    }
+}
+
+pub fn create_build_config_from_installed(name: String) {
+    if name.is_empty() {
+        panic!("create name is empty!")
+    }
+    let template_path = fetch_template_path(&name).unwrap();
+    let example_file_path = format!("{}/bullet.toml", &template_path.as_str());
+    match fs::copy(example_file_path, ".") {
+        Err(why) => panic!("failed to create bullet.toml from {}: {}", &name, why),
+        Ok(_) => println!("create {} bullet.toml success!", &name)
     }
 }
