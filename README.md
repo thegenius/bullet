@@ -1,3 +1,6 @@
+
+![crates.io](https://img.shields.io/badge/crates.io-0.2.0-green.svg)
+
 # bullet
 bullet is a project boilerplate generator
 
