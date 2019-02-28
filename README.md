@@ -1,5 +1,6 @@
 
-![crates.io](https://img.shields.io/badge/crates.io-0.2.0-green.svg)
+[![crates.io](https://crates.io/crates/cargo-bullet)](https://img.shields.io/badge/crates.io-0.2.0-green.svg)
+[![Build Status](https://www.travis-ci.org/thegenius/bullet.svg?branch=master)](https://www.travis-ci.org/thegenius/bullet)
 
 # bullet
 bullet is a project boilerplate generator
