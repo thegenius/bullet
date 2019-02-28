@@ -109,8 +109,31 @@ fields = [
 |group|yes|string|
 |project|yes|string|
 |ext|no|map\<string, string\>|
-|resources|no|resource item|
+|resources|no|resource element|
 
+### resource element
+|property|must|type|
+|----|----|----|
+|name_info|yes|name element|
+|type_info|yes|map\<string, string\>|
+|ext|no|map\<string, string\>|
+|fields|yes|field element|
+
+### field element
+|property|must|type|
+|----|----|----|
+|name_info|yes|name element|
+|type_info|yes|map\<string, string\>|
+|ext|no|map\<string, string\>|
+
+### name element
+|property|must|type|
+|----|----|----|
+|default_name|yes|string|
+|snake_name|no|string|
+|hyphen_name|no|string|
+|upper_camel_name|no|string|
+|lower_camel_name|no|string|
 
 # Supported Templates
 ## Java Spring
