@@ -54,7 +54,21 @@ so to save your life time.
 2. config the project with yaml or json or toml.
 3. generate the project
 
+# For Template Developer
+## template structure
+```text
+root |-- structure/
+     |-- |-- structure.toml 
+     |-- template/
+     |-- |-- hello.tmpl
+     |-- |-- world.tmpl
+     |-- bullet.toml
+```
 
 # supported templates
 ## java spring
-./release/bullet_win_0.1.exe -c release/build_example.toml -t release/templates/spring_java -o output
+```text
+cargo bullet install --name=bullet-spring-java
+cargo bullet create  --name=bullet-spring-java
+cargo bullet build   --name=bullet-spring-java --output=out 
+```

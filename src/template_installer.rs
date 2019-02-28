@@ -157,7 +157,7 @@ pub fn create_build_config_from_installed(name: String) {
     }
     let template_path = fetch_template_path(&name).unwrap();
     let example_file_path = format!("{}/bullet.toml", &template_path.as_str());
-    match fs::copy(example_file_path, ".") {
+    match fs::copy(example_file_path, "bullet.toml") {
         Err(why) => panic!("failed to create bullet.toml from {}: {}", &name, why),
         Ok(_) => println!("create {} bullet.toml success!", &name)
     }
