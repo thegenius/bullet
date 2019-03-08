@@ -147,3 +147,10 @@ cargo bullet install --name=bullet-spring-java
 cargo bullet create  --name=bullet-spring-java
 cargo bullet build   --name=bullet-spring-java --output=out 
 ```
+
+## MySQL accumulator
+```text
+cargo bullet install --name=bullet-sql-accumulator
+cargo bullet create  --name=bullet-sql-accumulator
+cargo bullet build   --name=bullet-sql-accumulator --output=out 
+```

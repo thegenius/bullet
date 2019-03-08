@@ -1,6 +1,6 @@
 [package]
 name = "cargo-bullet"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["wang wei <soulww@163.com>"]
 edition = "2018"
 
