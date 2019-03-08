@@ -111,6 +111,8 @@ fn generate_repository_url(name: &String, url: &String) -> String {
         }
         if name.eq("bullet-spring-java") {
             return String::from("https://github.com/thegenius/bullet-spring-java.git");
+        } else if name.eq("bullet-sql-accumulator") {
+            return String::from("https://github.com/thegenius/bullet-sql-accumulator.git");
         } else {
             panic!("sorry, you choose an official repository not supported for now!");
         }
