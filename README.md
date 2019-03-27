@@ -12,10 +12,18 @@ bullet is a project boilerplate generator
 2. install bullet: cargo install cargo-bullet
 3. check version: cargo bullet --version
 
+### Known Problems
+|OS|Problem|Solve|
+|--|--|--|
+|ubuntu|linker `cc` not found|sudo apt-get install build-essential|
+|ubuntu|Could not find directory of OpenSSL|sudo apt install libssl-dev & sudo apt instll pkg-config|  
+
+
 ## windows
 1. install rust: following [rust-lang](https://www.rust-lang.org/tools/install)
 2. install bullet: cargo install cargo-bullet
 3. check version: cargo bullet --version
+* please install visual studio to get the msvc compiler
 
 ## install from source
 1. install rust
@@ -139,6 +147,9 @@ fields = [
 |hyphen_name|no|string|
 |upper_camel_name|no|string|
 |lower_camel_name|no|string|
+
+
+
 
 # Supported Templates
 ## Java Spring
