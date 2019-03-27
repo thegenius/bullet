@@ -15,6 +15,7 @@ bullet is a project boilerplate generator
 ### Known Problems
 |OS|Problem|Solve|
 |--|--|--|
+|centos|Could not find directory of OpenSSL|yum install openssl-devel|
 |ubuntu|linker `cc` not found|sudo apt-get install build-essential|
 |ubuntu|Could not find directory of OpenSSL|sudo apt install libssl-dev & sudo apt instll pkg-config|  
 
