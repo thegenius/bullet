@@ -232,7 +232,43 @@ use tera::{Context, Tera};
 //     )
 // }
 
-fn render_structure_item(tera: &Tera, context: &Context, out: &str, item: &ProjectStructureItem) {
+fn copy_template_file(item: &ProjectStructureItem) {
+    //         let template_dir_dot_style = structure_item.get(0).unwrap();
+//         let template_dir = format!(
+//             "{}/{}",
+//             project_template_path,
+//             template_dir_dot_style.replace(".", "/")
+//         );
+}
+
+fn render_structure_item(tera: &Tera, context: &Context, asset_dir: &str, out: &str, item: &ProjectStructureItem) {
+    if !(&item.item_tmpl.ends_with(".tmpl")) {
+        let origin_file_path = format!("{}/{}",
+                                       asset_dir,
+            item.item_tmpl
+        );
+        let target_dir_path = format!("{}/{}",
+                                       out,
+                                       item.item_path.replace(".", "/"));
+        let target_file_path = format!("{}/{}/{}",
+            out,
+            item.item_path.replace(".", "/"),
+            item.item_file);
+
+        match fs::metadata(&target_dir_path) {
+             Ok(f) => (),
+             Err(e) => match fs::create_dir_all(&target_dir_path) {
+                 Ok(t) => println!("create dir: {} success", &target_dir_path),
+                 Err(e) => panic!(e),
+             },
+         };
+
+        match fs::copy(&origin_file_path, &target_file_path) {
+            Ok(v) => println!("copy from {} to {}  success!", &origin_file_path, &target_file_path),
+            Err(e) => panic!(e)
+        }
+        return;
+    }
     let content = match tera.render(&item.item_tmpl, context) {
         Err(why) => panic!("failed to render item: {}", why),
         Ok(content) => content,
@@ -250,18 +286,20 @@ fn render_structure_item(tera: &Tera, context: &Context, out: &str, item: &Proje
 fn render_static_structure(
     tera: &Tera,
     build_config: &BuildConfig,
+    asset_dir: &str,
     out: &str,
     static_item: &ProjectStructureItem,
 ) {
     let mut context = Context::new();
     context.insert("context", &build_config);
     let item = structure_builder::parse_structure_item(static_item, &context);
-    render_structure_item(tera, &context, out, &item);
+    render_structure_item(tera, &context, asset_dir, out, &item);
 }
 
 fn render_dynamic_structure(
     tera: &Tera,
     build_config: &BuildConfig,
+    asset_dir: &str,
     out: &str,
     dynamic_item: &ProjectStructureItem,
 ) {
@@ -275,7 +313,7 @@ fn render_dynamic_structure(
                 context.insert("context", &build_config);
                 context.insert("resource", &val);
                 let item = structure_builder::parse_structure_item(dynamic_item, &context);
-                render_structure_item(tera, &context, out, &item);
+                render_structure_item(tera, &context, asset_dir, out, &item);
             }
         }
     }
@@ -284,13 +322,14 @@ fn render_dynamic_structure(
 fn render_by_template(template_path: &str, build_config: &BuildConfig, output: &str) {
     let project_structure_items = structure_builder::fetch_project_structure_items(template_path);
     let template_dir = format!("{}/template", template_path);
+    let asset_dir = format!("{}/asset", template_path);
     let tera = tera_builder::build_tera(&template_dir);
     for item in project_structure_items {
         if item.is_dynamic() {
-            render_dynamic_structure(&tera, &build_config, output, &item);
+            render_dynamic_structure(&tera, &build_config, &asset_dir,output, &item);
         }
         if item.is_static() {
-            render_static_structure(&tera, &build_config, output, &item);
+            render_static_structure(&tera, &build_config, &asset_dir,output, &item);
         }
     }
 }
