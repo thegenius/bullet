@@ -258,13 +258,13 @@ fn render_structure_item(tera: &Tera, context: &Context, asset_dir: &str, out: &
         match fs::metadata(&target_dir_path) {
              Ok(f) => (),
              Err(e) => match fs::create_dir_all(&target_dir_path) {
-                 Ok(t) => println!("create dir: {} success", &target_dir_path),
+                 Ok(t) => println!("[create dir]: {}", &target_dir_path),
                  Err(e) => panic!(e),
              },
          };
 
         match fs::copy(&origin_file_path, &target_file_path) {
-            Ok(v) => println!("copy from {} to {}  success!", &origin_file_path, &target_file_path),
+            Ok(v) => println!("[copy  asset]: {}", &target_file_path),
             Err(e) => panic!(e)
         }
         return;
@@ -277,9 +277,9 @@ fn render_structure_item(tera: &Tera, context: &Context, asset_dir: &str, out: &
     let file_dir = format!("{}/{}", out, &file_path);
     template_installer::prepare_dir(Path::new(&file_dir));
     let file_name = format!("{}/{}", file_dir, &item.item_file);
-    match fs::write(file_name, &content) {
+    match fs::write(&file_name, &content) {
         Err(why) => panic!("failed to write item: {}", why),
-        Ok(_) => (),
+        Ok(_) => println!("[create file]: {}", &file_name),
     }
 }
 

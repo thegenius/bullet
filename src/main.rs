@@ -17,6 +17,7 @@ mod structure_builder;
 mod template_installer;
 mod template_renderer;
 mod tera_builder;
+mod photo;
 
 use command_args_parser::{BuildArg, CreateArg, InstallArg};
 
