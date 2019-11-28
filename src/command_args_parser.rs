@@ -80,7 +80,7 @@ fn parse_create_args(create_command: &Option<&ArgMatches>) -> Option<CreateArg> 
 
 pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>) {
     let comand_line_matches = App::new("bullet")
-        .version("0.2.3")
+        .version("0.2.4")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(
