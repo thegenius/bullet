@@ -153,11 +153,18 @@ fields = [
 
 
 # Supported Templates
-## Java Spring
+## Java Spring Gradle
 ```text
 cargo bullet install --name=bullet-spring-java
 cargo bullet create  --name=bullet-spring-java
 cargo bullet build   --name=bullet-spring-java --output=out 
+```
+
+## Java Spring Maven
+```text
+cargo bullet install --name=bullet-spring-java-maven
+cargo bullet create  --name=bullet-spring-java-maven
+cargo bullet build   --name=bullet-spring-java-maven --output=out
 ```
 
 ## MySQL accumulator
