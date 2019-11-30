@@ -319,7 +319,7 @@ fn render_dynamic_structure(
     }
 }
 
-fn render_by_template(template_path: &str, build_config: &BuildConfig, output: &str) {
+pub fn render_by_template(template_path: &str, build_config: &BuildConfig, output: &str) {
     let project_structure_items = structure_builder::fetch_project_structure_items(template_path);
     let template_dir = format!("{}/template", template_path);
     let asset_dir = format!("{}/asset", template_path);

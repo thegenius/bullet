@@ -43,3 +43,12 @@ pub fn parse_build_config_file(config_file_path: &String) -> BuildConfig {
         Ok(build_config) => build_config,
     };
 }
+
+pub fn create_build_config(group: &str, project: &str) -> BuildConfig {
+    return BuildConfig {
+        group: group.to_string(),
+        project: project.to_string(),
+        ext: None,
+        resources: None
+    }
+}

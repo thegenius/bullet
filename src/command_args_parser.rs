@@ -1,4 +1,5 @@
 use clap::{App, Arg, ArgGroup, ArgMatches, SubCommand};
+use crate::build_config_parser::{BuildConfig, create_build_config};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum BuildArg {
@@ -11,7 +12,7 @@ pub enum BuildArg {
         config: String,
         name: String,
         out: String,
-    },
+    }
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -23,6 +24,12 @@ pub struct InstallArg {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateArg {
+    pub name: String,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct FastCreateArg {
+    pub build_config: BuildConfig,
     pub name: String,
 }
 
@@ -78,9 +85,23 @@ fn parse_create_args(create_command: &Option<&ArgMatches>) -> Option<CreateArg> 
     };
 }
 
-pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>) {
+fn parse_fast_create_args(fast_create_command: &Option<&ArgMatches>) -> Option<FastCreateArg> {
+    return match fast_create_command {
+        None => None,
+        Some(fast_create_command) => {
+            let proj_arg: String = fast_create_command.value_of("project").unwrap().to_string();
+            let last_dot_pos = proj_arg.rfind(".").unwrap();
+            let build_config = create_build_config(&proj_arg[0..last_dot_pos], &proj_arg[(last_dot_pos+1)..]);
+            let name_arg: String = fast_create_command.value_of("name").unwrap().to_string();
+            return Some(FastCreateArg { build_config: build_config, name: name_arg });
+        }
+    };
+}
+
+pub fn parse_command_line_args() ->
+    (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>, Option<FastCreateArg>) {
     let comand_line_matches = App::new("bullet")
-        .version("0.2.4")
+        .version("0.2.5")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(
@@ -169,6 +190,26 @@ pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>, Optio
                         .takes_value(true),
                 ),
         )
+        .subcommand(
+            SubCommand::with_name("fast-create")
+                .about("fast create project from command line")
+                .arg(
+                    Arg::with_name("project")
+                        .long("project")
+                        .short("p")
+                        .help("set the project name")
+                        .required(true)
+                        .takes_value(true),
+                )
+                .arg(
+                    Arg::with_name("name")
+                        .long("name")
+                        .short("n")
+                        .help("set the template name")
+                        .required(true)
+                        .takes_value(true),
+                ),
+        )
         .get_matches();
 
     let build_arg: Option<BuildArg> =
@@ -177,5 +218,7 @@ pub fn parse_command_line_args() -> (Option<InstallArg>, Option<BuildArg>, Optio
         parse_install_args(&comand_line_matches.subcommand_matches("install"));
     let create_arg: Option<CreateArg> =
         parse_create_args(&comand_line_matches.subcommand_matches("create"));
-    return (install_arg, build_arg, create_arg);
+    let fast_create_arg: Option<FastCreateArg> =
+                parse_fast_create_args(&comand_line_matches.subcommand_matches("fast-create"));
+    return (install_arg, build_arg, create_arg, fast_create_arg);
 }

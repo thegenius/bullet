@@ -19,10 +19,10 @@ mod template_renderer;
 mod tera_builder;
 mod photo;
 
-use command_args_parser::{BuildArg, CreateArg, InstallArg};
+use command_args_parser::{BuildArg, CreateArg, InstallArg, FastCreateArg};
 
 fn main() {
-    let command_args: (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>) =
+    let command_args: (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>, Option<FastCreateArg>) =
         command_args_parser::parse_command_line_args();
     match command_args.0 {
         None => (),
@@ -46,6 +46,18 @@ fn main() {
         None => (),
         Some(create_arg) => {
             template_installer::create_build_config_from_installed(create_arg.name);
+        }
+    }
+
+    match command_args.3 {
+        None => (),
+        Some(fast_create_arg) => {
+            match template_installer::fetch_template_path(&fast_create_arg.name) {
+                None => panic!("could not find the template of {}", &fast_create_arg.name),
+                Some(template_path) => {
+                    template_renderer::render_by_template(template_path.as_str(), &fast_create_arg.build_config, ".");
+                }
+            }
         }
     }
 }
