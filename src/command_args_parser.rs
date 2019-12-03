@@ -101,7 +101,7 @@ fn parse_fast_create_args(fast_create_command: &Option<&ArgMatches>) -> Option<F
 pub fn parse_command_line_args() ->
     (Option<InstallArg>, Option<BuildArg>, Option<CreateArg>, Option<FastCreateArg>) {
     let comand_line_matches = App::new("bullet")
-        .version("0.2.5")
+        .version("0.2.6")
         .author("Wang Wei. <soulww@163.com>")
         .about("This is a generator for java server application write in rust.")
         .arg(
